@@ -1,0 +1,52 @@
+version: '3.4'
+
+services:
+    sql.inventory.management.server:
+        image: mcr.microsoft.com/mssql/server
+        environment:
+            SA_PASSWORD: SebasCaro454
+            ACCEPT_EULA: "Y"
+        ports:
+            - "8006:1433"
+        volumes:
+            - db-data:/var/opt/mssql
+
+    rabbitmq:
+        image: rabbitmq:management
+        container_name: rabbitmq
+        environment:
+            - RABBITMQ_DEFAULT_USER=SC45
+            - RABBITMQ_DEFAULT_PASS=4545@
+        ports:
+            - "5672:5672"
+            - "15672:15672"
+
+    inventorymanagementsystem.microservices.inventory:
+        image: ${DOCKER_REGISTRY-}inventorymanagementsystemmicroservicesinventory
+        container_name: microservices.inventory
+        build:
+            context: .
+            dockerfile: InventoryManagementSystem.Microservices.Inventory/Dockerfile
+        ports:
+            - "8007:1433"
+        environment:
+            - HOSTNAME=rabbitmq
+            - RBMQ_USERNAME=SC45
+            - RBMQ_PASSWORD=4545@
+            - DB_ConnectionString=Data Source=sql.server;Initial Catalog=InventorySystem;User ID=sa;Password=SebasCaro454;TrustServerCertificate=True;
+        depends_on:
+            - rabbitmq
+            - sql.inventory.management.server
+    
+    inventorymanagementsystem.microservices.purchase.api:
+        image: ${DOCKER_REGISTRY-}inventorymanagementsystemmicroservicespurchaseapi
+        build:
+            context: .
+            dockerfile: InventoryManagementSystem.Microservices.Purchase.API/Dockerfile
+
+networks:
+    default:
+        driver: bridge
+
+volumes:
+    db-data:

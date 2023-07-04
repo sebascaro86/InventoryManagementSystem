@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  inventorymanagementsystem.microservices.inventory:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
+
+  inventorymanagementsystem.microservices.purchase.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
+
