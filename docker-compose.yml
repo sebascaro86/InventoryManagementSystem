@@ -1,9 +1,21 @@
 version: '3.4'
 
 services:
+    gateway:
+        image: nginx:latest
+        container_name: gateway
+        ports:
+          - "80:80"
+        volumes:
+          - ./nginx.conf:/etc/nginx/nginx.conf:ro
+        depends_on:
+          - inventorymanagementsystem.microservices.inventory.api
+          - inventorymanagementsystem.microservices.purchase.api
+
     sql.inventory.management.server:
         image: mcr.microsoft.com/mssql/server
-        environment:
+        container_name: sql.inventory.management.server
+        environment: 
             SA_PASSWORD: SebasCaro454
             ACCEPT_EULA: "Y"
         ports:
@@ -21,14 +33,31 @@ services:
             - "5672:5672"
             - "15672:15672"
 
-    inventorymanagementsystem.microservices.inventory:
+    inventorymanagementsystem.microservices.inventory.api:
         image: ${DOCKER_REGISTRY-}inventorymanagementsystemmicroservicesinventory
-        container_name: microservices.inventory
+        container_name: microservices.inventory.api
         build:
             context: .
             dockerfile: InventoryManagementSystem.Microservices.Inventory/Dockerfile
         ports:
-            - "8007:1433"
+            - "8007:8007"
+        environment:
+            - HOSTNAME=rabbitmq
+            - RBMQ_USERNAME=SC45
+            - RBMQ_PASSWORD=4545@
+            - DB_ConnectionString=Data Source=sql.inventory.management.server;Initial Catalog=InventorySystem;User ID=sa;Password=SebasCaro454;TrustServerCertificate=True;
+        depends_on:
+            - rabbitmq
+            - sql.inventory.management.server
+    
+    inventorymanagementsystem.microservices.purchase.api:
+        image: ${DOCKER_REGISTRY-}inventorymanagementsystemmicroservicespurchaseapi
+        container_name: microservices.purchase.api
+        build:
+            context: .
+            dockerfile: InventoryManagementSystem.Microservices.Purchase.API/Dockerfile
+        ports:
+            - "8008:8008"
         environment:
             - HOSTNAME=rabbitmq
             - RBMQ_USERNAME=SC45
@@ -37,12 +66,7 @@ services:
         depends_on:
             - rabbitmq
             - sql.inventory.management.server
-    
-    inventorymanagementsystem.microservices.purchase.api:
-        image: ${DOCKER_REGISTRY-}inventorymanagementsystemmicroservicespurchaseapi
-        build:
-            context: .
-            dockerfile: InventoryManagementSystem.Microservices.Purchase.API/Dockerfile
+            - inventorymanagementsystem.microservices.inventory.api
 
 networks:
     default:
