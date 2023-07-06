@@ -62,7 +62,7 @@ services:
             - HOSTNAME=rabbitmq
             - RBMQ_USERNAME=SC45
             - RBMQ_PASSWORD=4545@
-            - DB_ConnectionString=Data Source=sql.server;Initial Catalog=InventorySystem;User ID=sa;Password=SebasCaro454;TrustServerCertificate=True;
+            - DB_ConnectionString=Data Source=sql.inventory.management.server;Initial Catalog=InventorySystem;User ID=sa;Password=SebasCaro454;TrustServerCertificate=True;
         depends_on:
             - rabbitmq
             - sql.inventory.management.server

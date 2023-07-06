@@ -1,4 +1,4 @@
-﻿using InventoryManagementSystem.Infrastructure.Database.Models;
+﻿using InventoryManagementSystem.Domain.Core.Models;
 using Microsoft.EntityFrameworkCore;
 
 

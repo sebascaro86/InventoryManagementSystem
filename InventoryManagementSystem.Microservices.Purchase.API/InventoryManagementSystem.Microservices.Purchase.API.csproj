@@ -14,10 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\InventoryManagementSystem.Infrastructure.loC\InventoryManagementSystem.Infrastructure.loC.csproj" />
   </ItemGroup>
 

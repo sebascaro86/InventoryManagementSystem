@@ -20,6 +20,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\InventoryManagementSystem.Infrastructure.loC\InventoryManagementSystem.Infrastructure.loC.csproj" />
+    <ProjectReference Include="..\InventoryManagementSystem.Microservices.Inventory.Application\InventoryManagementSystem.Microservices.Inventory.Application.csproj" />
+    <ProjectReference Include="..\InventoryManagementSystem.Microservices.Inventory.Infrastructure\InventoryManagementSystem.Microservices.Inventory.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

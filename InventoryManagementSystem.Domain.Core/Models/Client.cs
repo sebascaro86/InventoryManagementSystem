@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace InventoryManagementSystem.Infrastructure.Database.Models
+namespace InventoryManagementSystem.Domain.Core.Models
 {
     public class Client
     {

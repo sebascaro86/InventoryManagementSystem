@@ -1,4 +1,5 @@
 using InventoryManagementSystem.Infrastructure.loC;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +16,17 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
+    app.UseSwagger(opt =>
+    {
+        opt.PreSerializeFilters.Add((swagger, request) =>
+        {
+            var serverUrl = $"{request.Headers["X-Forwarded-Proto"]}://" +
+             $"{request.Headers["X-Forwarded-Host"]}/" +
+             $"{request.Headers["X-Forwarded-Prefix"]}";
+
+            swagger.Servers = new List<OpenApiServer> { new() { Url = serverUrl } };
+        });
+    });
     app.UseSwaggerUI();
 }
 

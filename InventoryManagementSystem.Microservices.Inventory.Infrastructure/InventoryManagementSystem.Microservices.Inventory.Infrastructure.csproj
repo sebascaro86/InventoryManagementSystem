@@ -7,11 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0-preview.5.23280.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Repositories\" />
+    <ProjectReference Include="..\InventoryManagementSystem.Infrastructure.Database\InventoryManagementSystem.Infrastructure.Database.csproj" />
+    <ProjectReference Include="..\InventoryManagementSystem.Microservices.Inventory.Domain\InventoryManagementSystem.Microservices.Inventory.Domain.csproj" />
   </ItemGroup>
 
 </Project>

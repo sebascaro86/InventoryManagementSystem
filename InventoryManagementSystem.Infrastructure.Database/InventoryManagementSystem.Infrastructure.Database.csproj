@@ -15,4 +15,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\InventoryManagementSystem.Domain.Core\InventoryManagementSystem.Domain.Core.csproj" />
+  </ItemGroup>
+
 </Project>
