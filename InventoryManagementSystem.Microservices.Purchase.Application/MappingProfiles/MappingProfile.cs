@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
-using InventoryManagementSystem.Domain.Core.Models;
-using InventoryManagementSystem.Microservices.Inventory.Application.DTOs.Products;
 
-namespace InventoryManagementSystem.Microservices.Inventory.Application.MappingProfiles
+namespace InventoryManagementSystem.Microservices.Purchase.Application.MappingProfiles
 {
     /// <summary>
     /// Represents a mapping profile for AutoMapper.
@@ -14,10 +12,10 @@ namespace InventoryManagementSystem.Microservices.Inventory.Application.MappingP
         /// </summary>
         public MappingProfile()
         {
-            CreateMap<Product, ProductDTO>();
+            /*CreateMap<Product, ProductDTO>();
             CreateMap<ProductDTO, Product>();
 
-            CreateMap<CreateProductDTO, Product>();
+            CreateMap<CreateProductDTO, Product>();*/
         }
     }
 }
