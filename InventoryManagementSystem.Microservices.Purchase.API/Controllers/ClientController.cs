@@ -22,8 +22,8 @@ namespace InventoryManagementSystem.Microservices.Purchase.API.Controllers
             return Ok(await _clientService.GetClients());
         }
 
-        [HttpGet("{customerId}")]
-        [ValidateGuidIdAttribute("productId")]
+        [HttpGet("{clientId}")]
+        [ValidateGuidIdAttribute("clientId")]
         public async Task<IActionResult> GetClient(string clientId)
         {
             return Ok(await _clientService.GetClient(clientId));
@@ -33,7 +33,7 @@ namespace InventoryManagementSystem.Microservices.Purchase.API.Controllers
         public async Task<IActionResult> CreateCustomer(CreateClientDTO clientDTO)
         {
             var createdClient = await _clientService.CreateClient(clientDTO);
-            return CreatedAtAction(nameof(GetClient), new { clientID = createdClient.Id}, createdClient);
+            return CreatedAtAction(nameof(GetClient), new { clientId = createdClient.Id}, createdClient);
         }
     }
 }

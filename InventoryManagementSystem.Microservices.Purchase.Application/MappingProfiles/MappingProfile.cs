@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using InventoryManagementSystem.Domain.Core.Models;
+using InventoryManagementSystem.Microservices.Purchase.Application.DTOs.Clients;
+using InventoryManagementSystem.Microservices.Purchase.Application.DTOs.Purchases;
 
 namespace InventoryManagementSystem.Microservices.Purchase.Application.MappingProfiles
 {
@@ -12,10 +15,20 @@ namespace InventoryManagementSystem.Microservices.Purchase.Application.MappingPr
         /// </summary>
         public MappingProfile()
         {
-            /*CreateMap<Product, ProductDTO>();
-            CreateMap<ProductDTO, Product>();
+            CreateMap<Client, ClientDTO>();
+            CreateMap<ClientDTO, Client>();
 
-            CreateMap<CreateProductDTO, Product>();*/
+            CreateMap<CreateClientDTO, Client>();
+
+            CreateMap<ProductPurchaseDTO, Product>();
+            CreateMap<Product, ProductPurchaseDTO>();
+
+            CreateMap<RegisterPurchaseDTO, Buy>();
+            CreateMap<ProductPurchaseDTO, BuyItem>();
+            CreateMap<BuyItem, ProductPurchaseDTO>();
+
+            CreateMap<PurchaseDTO, Buy>();
+            CreateMap<Buy, PurchaseDTO>();
         }
     }
 }

@@ -6,5 +6,7 @@ namespace InventoryManagementSystem.Microservices.Purchase.Domain.Interfaces
     {
         Task<ICollection<Buy>> GetBuys();
         Task<Buy> GetBuy(Guid buyId);
+
+        Task<Buy> CreateBuy(Buy buy);
     }
 }

@@ -2,7 +2,7 @@
 {
     public class RegisterPurchaseDTO
     {
-        public List<ProductPurchaseDTO> Products { get; set; }
-        public string CustomerId { get; set; }
+        public ICollection<ProductPurchaseDTO> Products { get; set; }
+        public string ClientId { get; set; }
     }
 }

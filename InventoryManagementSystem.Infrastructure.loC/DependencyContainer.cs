@@ -5,6 +5,7 @@ using InventoryManagementSystem.Infrastructure.Database.Context;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using System.Reflection;
 
 namespace InventoryManagementSystem.Infrastructure.loC
 {
@@ -12,6 +13,10 @@ namespace InventoryManagementSystem.Infrastructure.loC
     {
         public static IServiceCollection RegisterServices(this IServiceCollection services)
         {
+            Console.WriteLine("Llegamos");
+
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+
             services.RegisterDatabaseServices();
 
             services.Configure<RabbitMQSettings>(options =>
@@ -22,6 +27,7 @@ namespace InventoryManagementSystem.Infrastructure.loC
             });
 
             services.AddTransient<InventoryDBContext>();
+
             services.AddSingleton<IEventBus, RabbitMQBus>(sp => 
             {
                 var scopeFactory = sp.GetRequiredService<IServiceScopeFactory>();

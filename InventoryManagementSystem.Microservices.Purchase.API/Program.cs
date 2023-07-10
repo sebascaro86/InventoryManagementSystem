@@ -1,6 +1,13 @@
 using InventoryManagementSystem.Infrastructure.loC;
 using InventoryManagementSystem.Microservices.Purchase.API.Middlewares;
 using InventoryManagementSystem.Microservices.Purchase.API.Models;
+using InventoryManagementSystem.Microservices.Purchase.Application.Interfaces;
+using InventoryManagementSystem.Microservices.Purchase.Application.Services;
+using InventoryManagementSystem.Microservices.Purchase.Domain.CommandHandlers;
+using InventoryManagementSystem.Microservices.Purchase.Domain.Commands;
+using InventoryManagementSystem.Microservices.Purchase.Domain.Interfaces;
+using InventoryManagementSystem.Microservices.Purchase.Infrastructure.Repositories;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 
@@ -29,10 +36,19 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.RegisterServices();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-builder.Services.RegisterServices();
+// Register services and repository
+builder.Services.AddTransient<IProductRepository, ProductRepository>();
+builder.Services.AddTransient<IClientRepository, ClientRepository>();
+builder.Services.AddTransient<IPurchaseRepository, PurchaseRepository>();
+
+builder.Services.AddTransient<IClientService, ClientService>();
+builder.Services.AddTransient<IPurchaseService, PurchaseService>();
+
+builder.Services.AddTransient<IRequestHandler<UpdateProductsCommand, bool>, UpdateProductsCommandHandler>();
 
 builder.Services.AddCors(options =>
 {

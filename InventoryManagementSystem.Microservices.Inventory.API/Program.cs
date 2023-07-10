@@ -1,9 +1,12 @@
+using InventoryManagementSystem.Domain.Core.Bus;
 using InventoryManagementSystem.Infrastructure.Database.Context;
 using InventoryManagementSystem.Infrastructure.loC;
 using InventoryManagementSystem.Microservices.Inventory.API.Middlewares;
 using InventoryManagementSystem.Microservices.Inventory.API.Models;
 using InventoryManagementSystem.Microservices.Inventory.Application.Interfaces;
 using InventoryManagementSystem.Microservices.Inventory.Application.Services;
+using InventoryManagementSystem.Microservices.Inventory.Domain.EventHandlers;
+using InventoryManagementSystem.Microservices.Inventory.Domain.Events;
 using InventoryManagementSystem.Microservices.Inventory.Domain.Interfaces;
 using InventoryManagementSystem.Microservices.Inventory.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +36,7 @@ builder.Services.AddControllers()
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.RegisterServices();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -40,7 +44,8 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<IProductRepository, ProductRepository>();
 
-builder.Services.RegisterServices();
+builder.Services.AddTransient<IEventHandler<UpdatedProductsEvent>, UpdateProductsEventHandler>();
+builder.Services.AddTransient<UpdateProductsEventHandler>();
 
 builder.Services.AddCors(options =>
 {
@@ -51,6 +56,9 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+
+var eventBus = app.Services.GetRequiredService<IEventBus>();
+eventBus.Subscribe<UpdatedProductsEvent, UpdateProductsEventHandler>();
 
 // Create database migrations
 using (var scope = app.Services.CreateScope())

@@ -35,5 +35,12 @@ namespace InventoryManagementSystem.Microservices.Purchase.Infrastructure.Reposi
 
             return purchase;
         }
+
+        public async Task<Buy> CreateBuy(Buy buy)
+        {
+            _dbContext.Buys.Add(buy);
+            await _dbContext.SaveChangesAsync();
+            return buy;
+        }
     }
 }

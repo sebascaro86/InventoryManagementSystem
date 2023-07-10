@@ -5,8 +5,8 @@ namespace InventoryManagementSystem.Microservices.Purchase.Application.DTOs.Purc
     public class PurchaseDTO
     {
         public Guid Id { get; set; }
-        public List<ProductPurchaseDTO> Products { get; set; }
         public DateTime Date { get; set; }
+        public ICollection<ProductPurchaseDTO> Products { get; set; }
         public ClientDTO Client { get; set; }
     }
 }

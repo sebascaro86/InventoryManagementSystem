@@ -10,12 +10,14 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\InventoryManagementSystem.Infrastructure.loC\InventoryManagementSystem.Infrastructure.loC.csproj" />
     <ProjectReference Include="..\InventoryManagementSystem.Microservices.Purchase.Application\InventoryManagementSystem.Microservices.Purchase.Application.csproj" />
+    <ProjectReference Include="..\InventoryManagementSystem.Microservices.Purchase.Infrastructure\InventoryManagementSystem.Microservices.Purchase.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

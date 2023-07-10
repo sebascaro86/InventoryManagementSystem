@@ -38,7 +38,7 @@ services:
         container_name: microservices.inventory.api
         build:
             context: .
-            dockerfile: InventoryManagementSystem.Microservices.Inventory/Dockerfile
+            dockerfile: InventoryManagementSystem.Microservices.Inventory.API/Dockerfile
         ports:
             - "8007:8007"
         environment:
