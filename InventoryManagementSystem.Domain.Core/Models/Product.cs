@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace InventoryManagementSystem.Domain.Core.Models
 {
+    /// <summary>
+    /// Represents a product entity.
+    /// </summary>
     public class Product
     {
         [Key]

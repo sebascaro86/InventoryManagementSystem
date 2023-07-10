@@ -2,6 +2,9 @@
 
 namespace InventoryManagementSystem.Domain.Core.Models
 {
+    /// <summary>
+    /// Represents a purchase item entity.
+    /// </summary>
     public class BuyItem
     {
         public int Id { get; set; }

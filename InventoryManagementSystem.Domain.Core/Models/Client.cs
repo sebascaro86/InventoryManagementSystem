@@ -2,6 +2,9 @@
 
 namespace InventoryManagementSystem.Domain.Core.Models
 {
+    /// <summary>
+    /// Represents a client entity.
+    /// </summary>
     public class Client
     {
         [Key]

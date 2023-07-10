@@ -1,5 +1,8 @@
 ﻿namespace InventoryManagementSystem.Microservices.Inventory.Application.DTOs.Products
 {
+    /// <summary>
+    /// Represents the data transfer object for a product.
+    /// </summary>
     public class ProductDTO
     {
         public Guid Id { get; set; }

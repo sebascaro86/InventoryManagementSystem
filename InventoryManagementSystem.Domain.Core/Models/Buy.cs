@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace InventoryManagementSystem.Domain.Core.Models
 {
+    /// <summary>
+    /// Represents a purchase entity.
+    /// </summary>
     public class Buy
     {
         [Key]

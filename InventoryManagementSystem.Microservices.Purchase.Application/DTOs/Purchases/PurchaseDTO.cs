@@ -2,6 +2,9 @@
 
 namespace InventoryManagementSystem.Microservices.Purchase.Application.DTOs.Purchases
 {
+    /// <summary>
+    /// Represents a purchase data transfer object.
+    /// </summary>
     public class PurchaseDTO
     {
         public Guid Id { get; set; }

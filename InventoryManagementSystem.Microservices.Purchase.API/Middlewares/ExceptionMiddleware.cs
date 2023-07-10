@@ -1,5 +1,6 @@
 ﻿using InventoryManagementSystem.Domain.Core.Exceptions;
 using InventoryManagementSystem.Microservices.Purchase.API.Models;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Net;
 
@@ -22,10 +23,11 @@ namespace InventoryManagementSystem.Microservices.Purchase.API.Middlewares
         }
 
         /// <summary>
-        /// Invokes the middleware asynchronously to handle exceptions in the request pipeline.
+        /// Invokes the middleware asynchronously.
         /// </summary>
-        /// <param name="context">The current HTTP context.</param>
-        /// <param name="next">The delegate representing the next middleware in the pipeline.</param>
+        /// <param name="context">The HTTP context.</param>
+        /// <param name="logger">The logger.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task InvokeAsync(HttpContext context, ILogger<ExceptionMiddleware> logger)
         {
             try
@@ -38,41 +40,55 @@ namespace InventoryManagementSystem.Microservices.Purchase.API.Middlewares
                 logger.LogInformation("Action execution completed:  {Method} - {ActionName}", context.Request.Method,
                     context.Request.Path.Value?.ToLower());
             }
+            catch (BadRequestException ex)
+            {
+                await HandleExceptionAsync(context, logger, ex, HttpStatusCode.BadRequest);
+            }
             catch (NotFoundException ex)
             {
-                logger.LogInformation(ex.Message);
-
-                context.Response.StatusCode = (int)HttpStatusCode.NotFound;
-                context.Response.ContentType = "application/json";
-
-                var errorResponse = new ErrorResponse
-                {
-                    Message = ex.Message
-                };
-
-                var json = JsonConvert.SerializeObject(errorResponse);
-                await context.Response.WriteAsync(json);
+                await HandleExceptionAsync(context, logger, ex, HttpStatusCode.NotFound);
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message, "An error occurred in the RealEstateAPI");
-
-                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                context.Response.ContentType = "application/json";
-
-                var errorResponse = new ErrorResponse
-                {
-                    Message = "An error occurred in the RealEstateAPI"
-                };
-
-                var json = JsonConvert.SerializeObject(errorResponse);
-                await context.Response.WriteAsync(json);
+                await HandleExceptionAsync(context, logger, ex, HttpStatusCode.InternalServerError);
             }
+        }
+
+        /// <summary>
+        /// Handles exceptions and writes the error response to the HTTP context.
+        /// </summary>
+        /// <param name="context">The HTTP context.</param>
+        /// <param name="logger">The logger.</param>
+        /// <param name="ex">The exception.</param>
+        /// <param name="statusCode">The HTTP status code.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        private async Task HandleExceptionAsync(HttpContext context, ILogger<ExceptionMiddleware> logger, Exception ex, HttpStatusCode statusCode)
+        {
+            logger.LogError(ex, "An error occurred in the PurchaseAPI");
+
+            context.Response.StatusCode = (int)statusCode;
+            context.Response.ContentType = "application/json";
+
+            var errorResponse = new ErrorResponse
+            {
+                Message = statusCode == HttpStatusCode.InternalServerError ? "An error occurred in the PurchaseAPI" : ex.Message
+            };
+
+            var json = JsonConvert.SerializeObject(errorResponse);
+            await context.Response.WriteAsync(json);
         }
     }
 
+    /// <summary>
+    /// Extension methods for adding the <see cref="ExceptionMiddleware"/> to the application pipeline.
+    /// </summary>
     public static class ExceptionMiddlewareExtensions
     {
+        /// <summary>
+        /// Adds the <see cref="ExceptionMiddleware"/> to the application pipeline.
+        /// </summary>
+        /// <param name="builder">The application builder.</param>
+        /// <returns>The updated application builder.</returns>
         public static IApplicationBuilder UseExceptionMiddleware(
             this IApplicationBuilder builder)
         {

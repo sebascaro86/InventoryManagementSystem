@@ -9,8 +9,16 @@ using System.Reflection;
 
 namespace InventoryManagementSystem.Infrastructure.loC
 {
+    /// <summary>
+    /// Represents a static class for registering services in the dependency container.
+    /// </summary>
     public static class DependencyContainer
     {
+        /// <summary>
+        /// Registers the services in the specified <see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/> to register the services in.</param>
+        /// <returns>The updated <see cref="IServiceCollection"/>.</returns>
         public static IServiceCollection RegisterServices(this IServiceCollection services)
         {
             Console.WriteLine("Llegamos");

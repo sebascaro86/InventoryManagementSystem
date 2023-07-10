@@ -55,14 +55,14 @@ namespace InventoryManagementSystem.Microservices.Inventory.API.Middlewares
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message, "An error occurred in the RealEstateAPI");
+                logger.LogError(ex.Message, "An error occurred in the Inventiry API");
 
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 context.Response.ContentType = "application/json";
 
                 var errorResponse = new ErrorResponse
                 {
-                    Message = "An error occurred in the RealEstateAPI"
+                    Message = "An error occurred in the PurchaseAPI"
                 };
 
                 var json = JsonConvert.SerializeObject(errorResponse);

@@ -7,11 +7,13 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using System.Runtime;
 using System.Text;
 
 namespace InventoryManagementSystem.Infrastructure.Bus
 {
+    /// <summary>
+    /// Represents a RabbitMQ event bus implementation.
+    /// </summary>
     public sealed class RabbitMQBus : IEventBus
     {
         private readonly IMediator _mediator;
@@ -20,6 +22,12 @@ namespace InventoryManagementSystem.Infrastructure.Bus
         private readonly IServiceScopeFactory _serviceScopeFactory;
         private readonly RabbitMQSettings _rabbitMQSettings;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RabbitMQBus"/> class.
+        /// </summary>
+        /// <param name="mediator">The mediator instance for sending commands.</param>
+        /// <param name="serviceScopeFactory">The service scope factory for creating service scopes.</param>
+        /// <param name="rabbitMQSettings">The RabbitMQ settings.</param>
         public RabbitMQBus(IMediator mediator, IServiceScopeFactory serviceScopeFactory,IOptions<RabbitMQSettings> rabbitMQSettings)
         {
             _mediator = mediator;
@@ -29,6 +37,7 @@ namespace InventoryManagementSystem.Infrastructure.Bus
             _rabbitMQSettings = rabbitMQSettings.Value;
         }
 
+        /// <inheritdoc/>
         public void Publish<T>(T @event) where T : Event
         {
             var factory = new ConnectionFactory
@@ -51,11 +60,13 @@ namespace InventoryManagementSystem.Infrastructure.Bus
             }
         }
 
+        /// <inheritdoc/>
         public Task SendCommand<T>(T command) where T : Command
         {
             return _mediator.Send(command);
         }
 
+        /// <inheritdoc/>
         public void Subscribe<T, TH>()
             where T : Event
             where TH : IEventHandler<T>
@@ -83,6 +94,10 @@ namespace InventoryManagementSystem.Infrastructure.Bus
             StartBasicConsume<T>();
         }
 
+        /// <summary>
+        /// Starts consuming messages from the specified event queue in RabbitMQ.
+        /// </summary>
+        /// <typeparam name="T">The type of event to consume.</typeparam>
         private void StartBasicConsume<T>() where T : Event
         {
             var factory = new ConnectionFactory
@@ -104,6 +119,9 @@ namespace InventoryManagementSystem.Infrastructure.Bus
             channel.BasicConsume(eventName, true, consumer);
         }
 
+        /// <summary>
+        /// Event handler for receiving a message from RabbitMQ.
+        /// </summary>
         private async Task Consumer_Received(object sender, BasicDeliverEventArgs e)
         {
             var eventName = e.RoutingKey;
@@ -111,6 +129,11 @@ namespace InventoryManagementSystem.Infrastructure.Bus
             await ProcessEvent(eventName, message).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Processes the received event message by invoking the appropriate event handlers.
+        /// </summary>
+        /// <param name="eventName">The name of the event.</param>
+        /// <param name="message">The event message.</param>
         private async Task ProcessEvent(string eventName, string message)
         {
             if (_handlers.ContainsKey(eventName))

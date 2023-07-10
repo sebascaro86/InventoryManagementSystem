@@ -4,8 +4,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InventoryManagementSystem.Infrastructure.Database.Context
 {
+    /// <summary>
+    /// Represents the database context for the inventory management system.
+    /// </summary>
     public class InventoryDBContext : DbContext
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InventoryDBContext"/> class.
+        /// </summary>
+        /// <param name="options">The options for configuring the database context.</param>
         public InventoryDBContext(DbContextOptions<InventoryDBContext> options) : base(options)
         { }
 
@@ -17,6 +24,10 @@ namespace InventoryManagementSystem.Infrastructure.Database.Context
 
         public DbSet<Product> Products { get; set; }
 
+        /// <summary>
+        /// Configures the relationships between entities in the database context.
+        /// </summary>
+        /// <param name="modelBuilder">The model builder instance.</param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

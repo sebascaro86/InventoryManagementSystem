@@ -1,5 +1,8 @@
 ﻿namespace InventoryManagementSystem.Microservices.Inventory.Application.DTOs.Products
 {
+    /// <summary>
+    /// Represents the data transfer object for creating a product.
+    /// </summary>
     public class CreateProductDTO
     {
         public string Name { get; set; }
