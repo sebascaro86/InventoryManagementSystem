@@ -1,12 +1,11 @@
-﻿using InventoryManagementSystem.Domain.Core.Models;
-using InventoryManagementSystem.Microservices.Inventory.API.Filters;
+﻿using InventoryManagementSystem.Microservices.Inventory.API.Filters;
 using InventoryManagementSystem.Microservices.Inventory.Application.DTOs.Products;
 using InventoryManagementSystem.Microservices.Inventory.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InventoryManagementSystem.Microservices.Inventory.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/products")]
     [ApiController]
     public class ProductsController : ControllerBase
     {

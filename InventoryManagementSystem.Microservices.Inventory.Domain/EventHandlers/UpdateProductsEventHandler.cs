@@ -14,10 +14,18 @@ namespace InventoryManagementSystem.Microservices.Inventory.Domain.EventHandlers
         }
 
 
-        public Task Handle(UpdatedProductsEvent @event)
+        public async Task Handle(UpdatedProductsEvent @event)
         {
-            Console.WriteLine(@event.Products.FirstOrDefault().ProductId);
-            return Task.CompletedTask;
+            foreach (var updateProductCommand in @event.Products)
+            {
+                var product = await _productRepository.Get(updateProductCommand.ProductId);
+
+                if (product != null)
+                {
+                    product.InInventory -= updateProductCommand.Quantity;
+                    await _productRepository.Update(product);
+                }
+            }
         }
     }
 }

@@ -5,13 +5,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace InventoryManagementSystem.Microservices.Purchase.API.Controllers
 {
-    [Route("/api/[controller]")]
+    [Route("/api/purchases")]
     [ApiController]
-    public class PurchaseController : ControllerBase
+    public class PurchasesController : ControllerBase
     {
         private readonly IPurchaseService _purchaseService;
 
-        public PurchaseController(IPurchaseService purchaseService)
+        public PurchasesController(IPurchaseService purchaseService)
         {
             _purchaseService = purchaseService;
         }
