@@ -13,7 +13,7 @@ namespace InventoryManagementSystem.Domain.Core.Models
         public string Name { get; set; }
         public int InInventory { get; set; }
         public bool Enabled { get; set; }
-        public Double Min { get; set; }
-        public Double Max { get; set; }
+        public int Min { get; set; }
+        public int Max { get; set; }
     }
 }

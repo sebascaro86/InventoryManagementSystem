@@ -21,8 +21,6 @@ namespace InventoryManagementSystem.Infrastructure.loC
         /// <returns>The updated <see cref="IServiceCollection"/>.</returns>
         public static IServiceCollection RegisterServices(this IServiceCollection services)
         {
-            Console.WriteLine("Llegamos");
-
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 
             services.RegisterDatabaseServices();

@@ -58,8 +58,7 @@ namespace InventoryManagementSystem.Microservices.Inventory.Application.Services
             product.Max = productDTO.Max;
             product.Min = productDTO.Min;
 
-            await _productRepository.Update(product);
-
+            product = await _productRepository.Update(product);
             return _mapper.Map<ProductDTO>(product);
         }
 
